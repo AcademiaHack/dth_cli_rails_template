@@ -5,7 +5,11 @@ run 'git init'
 run 'git remote add template git@gitlab.com:devtohack/rails_template.git'
 run 'git fetch template'
 if yes?("Desea agregar el theme inspinia? (Y/N)")
-  run 'git reset template/inspinia'
+  if yes?("Desea agregar manejo de usuarios con Devise? (Y/N)")
+    run 'git reset template/inspinia_devise'
+  else
+    run 'git reset template/inspinia'
+  end
 else
   run 'git reset template/master'
 end
@@ -68,6 +72,7 @@ after_bundle do
     if with_db
       run "rails db:create"
       run "rails db:migrate"
+      run "rails db:seed"
     end
 
   end
