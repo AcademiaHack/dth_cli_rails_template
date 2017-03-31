@@ -4,7 +4,11 @@ repo_url = ask("Introduce el url del repositorio (SSH), este sera agregado como 
 run 'git init'
 run 'git remote add template git@gitlab.com:devtohack/rails_template.git'
 run 'git fetch template'
-run 'git reset template/master'
+if yes?("Desea agregar el theme inspinia? (Y/N)")
+  run 'git reset template/inspinia'
+else
+  run 'git reset template/master'
+end
 run 'git reset --hard'
 
 after_bundle do
