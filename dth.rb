@@ -5,24 +5,10 @@ run 'git init'
 run 'git remote add template git@gitlab.com:devtohack/rails_template.git'
 run 'git fetch template'
 
-if yes?("La versión de rails instalada actualmente en su PC es 5.1 (Y/N)")
-  yarn = true
-  if yes?("Desea agregar el theme inspinia + devise? (Y/N)")
-    run 'git reset template/inspinia_devise_rails51'
-  else
-    run 'git reset template/rails51'
-  end
+if yes?("Desea agregar el design_system (bootstrap 4 + uptowncss)? (Y/N)")
+  run 'git reset template/design_system'
 else
-  yarn = false
-  if yes?("Desea agregar el theme inspinia? (Y/N)")
-    if yes?("Desea agregar manejo de usuarios con Devise? (Y/N)")
-      run 'git reset template/inspinia_devise'
-    else
-      run 'git reset template/inspinia'
-    end
-  else
-    run 'git reset template/master'
-  end
+  run 'git reset template/rails51'
 end
 
 run 'git reset --hard'
@@ -36,8 +22,7 @@ after_bundle do
   run "rm app/views/layouts/application.html.erb"
   run "rm app/views/layouts/mailer.html.erb"
   run "rm app/views/layouts/mailer.text.erb"
-
-  run "yarn" if yarn
+  run "yarn"
 
   if yes?("Desea configurar las variables de entorno de este proyecto? (Y/N)")
     variables = {
