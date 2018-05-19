@@ -4,13 +4,7 @@ repo_url = ask("Introduce el url del repositorio (SSH), este sera agregado como 
 run 'git init'
 run 'git remote add template git@gitlab.com:devtohack/rails_template.git'
 run 'git fetch template'
-
-if yes?("Desea agregar el design_system (bootstrap 4 + uptowncss)? (Y/N)")
-  run 'git reset template/design_system'
-else
-  run 'git reset template/rails51'
-end
-
+run 'git reset template/development'
 run 'git reset --hard'
 
 after_bundle do
@@ -42,6 +36,12 @@ after_bundle do
         "DB_PASS" => db_pass,
         "DB_HOST" => db_host ? db_host : 'localhost'
       }
+      variables["test"] = {
+        "DB_NAME" => db_name,
+        "DB_USER" => db_user,
+        "DB_PASS" => db_pass,
+        "DB_HOST" => db_host ? db_host : 'localhost'
+      }
     end
 
     if !repo_url.blank?
@@ -50,8 +50,8 @@ after_bundle do
         dev_ip = ask("Introduce el dominio o IP del droplet para el enviroment DEVELOPMENT:")
         qa_ip = ask("Introduce el dominio o IP del droplet para el enviroment QA:")
         production_ip = ask("Introduce el dominio o IP del droplet para el enviroment PRODUCTION:")
-        channel = ask("Introduce el nombre del channel de SLACK (incluyendo el carcarter # si es un channel publico):")
-        hook = ask("Introduce el hook de SLACK para las notificaciones de deploy:")
+        channel = ask("Introduce el nombre del channel de Slack (incluyendo el carcarter # si es un channel publico):")
+        hook = ask("Introduce el hook de Slack para las notificaciones de deploy:")
         variables["capistrano"] = {
           "PROJECT_NAME" => 'rails_app',
           "REPO_URL" => repo_url,
