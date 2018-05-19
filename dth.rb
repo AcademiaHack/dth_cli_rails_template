@@ -21,6 +21,7 @@ after_bundle do
   if yes?("Desea configurar las variables de entorno de este proyecto? (Y/N)")
     variables = {
       "development" => {},
+      "test" => {},
       "capistrano" => {}
     }
 
