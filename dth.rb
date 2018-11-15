@@ -69,13 +69,13 @@ after_bundle do
     File.open("config/environment_variables.yml", "w") do |file|
       file.write variables.to_yaml
     end
-
+    
+    run "EDITOR='nano' bin/rails credentials:edit"
+    
     if with_db
       run "rails db:create"
       run "rails db:migrate"
       run "rails db:seed"
     end
-    
-    run "EDITOR='nano --wait' bin/rails credentials:edit"
   end
 end
