@@ -16,6 +16,7 @@ after_bundle do
   run "rm app/views/layouts/application.html.erb"
   run "rm app/views/layouts/mailer.html.erb"
   run "rm app/views/layouts/mailer.text.erb"
+  run "rm config/credentials.yml.enc"
   run "yarn"
 
   if yes?("Desea configurar las variables de entorno de este proyecto? (Y/N)")
@@ -35,13 +36,13 @@ after_bundle do
         "DB_NAME" => db_name,
         "DB_USER" => db_user,
         "DB_PASS" => db_pass,
-        "DB_HOST" => db_host ? db_host : 'localhost'
+        "DB_HOST" => db_host.nil? || db_host.empty? ? 'localhost' : db_host
       }
       variables["test"] = {
         "DB_NAME" => db_name,
         "DB_USER" => db_user,
         "DB_PASS" => db_pass,
-        "DB_HOST" => db_host ? db_host : 'localhost'
+        "DB_HOST" => db_host.nil? || db_host.empty? ? 'localhost' : db_host
       }
     end
 
@@ -74,6 +75,7 @@ after_bundle do
       run "rails db:migrate"
       run "rails db:seed"
     end
-
+    
+    run "EDITOR='nano --wait' bin/rails credentials:edit"
   end
 end
